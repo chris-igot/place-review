@@ -1,43 +1,44 @@
 {
-   "name": "poi-review",
-   "version": "1.0.0",
-   "description": "",
-   "main": "index.js",
-   "repository": "git@github.com:cigot/pikyu-backend.git",
-   "author": "cigot <c.bensi.igot@gmail.com>",
-   "license": "MIT",
-   "dependencies": {
-      "@googlemaps/google-maps-services-js": "^3.3.15",
-      "bcrypt": "^5.0.1",
-      "body-parser": "^1.19.2",
-      "class-validator": "^0.13.2",
-      "cookie": "^0.4.2",
-      "cookie-session": "^2.0.0",
-      "dotenv": "^16.0.1",
-      "express": "^4.17.3",
-      "mysql": "^2.18.1",
-      "pg": "^8.4.0",
-      "reflect-metadata": "^0.1.13",
-      "session": "^0.1.0",
-      "typeorm": "0.3.1"
-   },
-   "devDependencies": {
-      "@types/bcrypt": "^5.0.0",
-      "@types/cookie-session": "^2.0.44",
-      "@types/express": "^4.17.13",
-      "@types/jest": "^27.4.1",
-      "@types/node": "^16.11.10",
-      "jest": "^27.5.1",
-      "nodemon": "^2.0.15",
-      "ts-jest": "^27.1.3",
-      "ts-node": "10.4.0",
-      "typescript": "4.5.2"
-   },
-   "scripts": {
-      "server": "nodemon ./src/index.ts",
-      "test": "jest --watch",
-      "build": "tsc",
-      "start": "ts-node src/index.ts",
-      "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
-   }
+    "name": "place-review",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "repository": "git@github.com:cigot/place-review.git",
+    "author": "cigot <c.bensi.igot@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@googlemaps/google-maps-services-js": "^3.3.15",
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.19.2",
+        "class-validator": "^0.13.2",
+        "cookie": "^0.4.2",
+        "cookie-session": "^2.0.0",
+        "dotenv": "^16.0.1",
+        "express": "^4.17.3",
+        "metadata-scraper": "^0.2.55",
+        "mysql": "^2.18.1",
+        "pg": "^8.4.0",
+        "reflect-metadata": "^0.1.13",
+        "session": "^0.1.0",
+        "typeorm": "0.3.1"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/cookie-session": "^2.0.44",
+        "@types/express": "^4.17.13",
+        "@types/jest": "^27.4.1",
+        "@types/node": "^16.11.10",
+        "jest": "^27.5.1",
+        "nodemon": "^2.0.15",
+        "ts-jest": "^27.1.3",
+        "ts-node": "10.4.0",
+        "typescript": "4.5.2"
+    },
+    "scripts": {
+        "server": "nodemon ./src/index.ts",
+        "test": "jest --watch",
+        "build": "tsc",
+        "start": "ts-node src/index.ts",
+        "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
+    }
 }
