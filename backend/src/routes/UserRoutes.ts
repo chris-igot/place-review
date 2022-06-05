@@ -8,8 +8,7 @@ const jsonParser = bodyParser.json();
 
 UserRouter.post("/login", jsonParser, UserController.login);
 UserRouter.post("/users", jsonParser, UserController.registration);
-UserRouter.delete("/login", UserController.logout);
-UserRouter.get("/self/users", loginVerification, UserController.retrieve);
+UserRouter.get("/users/self", loginVerification, UserController.retrieve);
 
 UserRouter.delete("/login", UserController.logout);
 UserRouter.get("/logout", UserController.logout);
