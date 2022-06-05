@@ -2,8 +2,8 @@ import { Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import User from "./User";
 import BaseTimeStamp from "./_BaseTimeStamp";
 
-@Entity({ name: "pointsOfInterests" })
-export default class POI extends BaseTimeStamp {
+@Entity({ name: "places" })
+export default class Place extends BaseTimeStamp {
     @PrimaryColumn()
     place_id: string;
 

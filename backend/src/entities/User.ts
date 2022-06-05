@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import BaseUser from "./_BaseUser";
 import crypto from "crypto";
-import POI from "./POI";
+import Place from "./Place";
 
 @Entity({ name: "users" })
 @Unique(["name", "disambiguator"])
@@ -17,8 +17,8 @@ export default class User extends BaseUser {
     @Column()
     disambiguator: number;
 
-    @OneToMany(() => POI, (poi) => poi.owner)
-    ownedPOI: POI[];
+    @OneToMany(() => Place, (poi) => poi.owner)
+    ownedPOI: Place[];
 
     @BeforeInsert()
     async createDisambiguator() {
