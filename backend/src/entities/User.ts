@@ -17,9 +17,6 @@ export default class User extends BaseUser {
     @Column()
     disambiguator: number;
 
-    @OneToMany(() => Place, (poi) => poi.owner)
-    ownedPOI: Place[];
-
     @BeforeInsert()
     async createDisambiguator() {
         this.disambiguator = crypto.randomInt(100_000);
