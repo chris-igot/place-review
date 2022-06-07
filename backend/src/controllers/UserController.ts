@@ -36,21 +36,6 @@ export async function registration(req: Request, res: Response) {
             console.error(error.name, error.message);
         } else if (newUser) {
             req.session.user = { id: newUser.id };
-            // const roleFromDB = await AppDataSource.manager.findOneBy(Role, {
-            //     name: "base",
-            //     category: type,
-            // });
-
-            // console.log({ roleFromDB });
-
-            // if (newUser.roles) {
-            //     newUser.roles.push(roleFromDB);
-            // } else {
-            //     newUser.roles = [];
-            //     newUser.roles.push(roleFromDB);
-            // }
-            console.log({ newEntity: newUser });
-            // await AppDataSource.manager.save(newUser);
 
             status = 200;
         } else {
