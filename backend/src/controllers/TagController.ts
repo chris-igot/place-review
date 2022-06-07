@@ -50,8 +50,6 @@ export async function getTagRef(req: Request, res: Response) {
     let status = 200;
     let result: TagRef;
 
-    console.log({ tagName, placeId });
-
     if (tagName && placeId) {
         let dbTagRef = await AppDataSource.getRepository(TagRef)
             .createQueryBuilder("tagRefs")
@@ -59,7 +57,7 @@ export async function getTagRef(req: Request, res: Response) {
             .andWhere("tagRefs.tagName = :tagName", { tagName })
             .andWhere("tagRefs.placeId = :placeId", { placeId })
             .getOne();
-        console.log(dbTagRef);
+
         if (dbTagRef) {
             result = dbTagRef;
         } else {

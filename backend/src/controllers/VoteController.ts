@@ -66,8 +66,6 @@ export async function castVote(req: Request, res: Response) {
                 }
 
                 const newVote2 = await AppDataSource.manager.save(newVote);
-
-                console.log("newVote", newVote2);
             } else {
                 status = 403;
             }
