@@ -55,7 +55,7 @@ export async function getAutocompleteResult(req: Request, res: Response) {
                 for (let i = 0; i < result.length; i++) {
                     const element = result[i];
                     let newPlace = new Place();
-                    newPlace.place_id = element.place_id;
+                    newPlace.placeId = element.place_id;
 
                     try {
                         newPlace = await AppDataSource.manager.save(newPlace);
@@ -85,17 +85,17 @@ export async function getAutocompleteResult(req: Request, res: Response) {
 }
 
 export async function getPlaceDetails(req: Request, res: Response) {
-    const place_id = req.params.place_id as string;
+    const placeId = req.params.placeId as string;
     let meta: MetaData;
     let result: Partial<PlaceData>;
     let errorMessage: any;
     let status = 200;
 
-    if (place_id && typeof place_id === "string") {
+    if (placeId && typeof placeId === "string") {
         await client
             .placeDetails({
                 params: {
-                    place_id,
+                    place_id: placeId,
                     key: process.env.GOOGLEAPI_KEY,
                     fields: detailFields,
                 },
@@ -132,6 +132,32 @@ export async function getPlaceDetails(req: Request, res: Response) {
     } else if (status === 500) {
         res.status(status);
         res.send(errorMessage);
+    } else {
+        res.sendStatus(status);
+    }
+}
+
+export async function getPlace(req: Request, res: Response) {
+    const placeId = req.params.placeId as string;
+    let status = 200;
+    let result: Place;
+
+    if (placeId) {
+        const dbPlace = await AppDataSource.getRepository(Place)
+            .createQueryBuilder("places")
+            .leftJoinAndSelect("places.tags", "tags")
+            .where({ placeId })
+            .getOne();
+
+        if (dbPlace) {
+            result = dbPlace;
+        } else {
+            status = 404;
+        }
+    }
+
+    if (status === 200) {
+        res.send(result);
     } else {
         res.sendStatus(status);
     }

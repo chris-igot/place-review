@@ -11,9 +11,15 @@ PlaceRouter.get(
 );
 
 PlaceRouter.get(
-    "/places/id/:place_id",
+    "/places/id/:placeId/details",
     loginVerification,
     PlaceControllers.getPlaceDetails
+);
+
+PlaceRouter.get(
+    "/places/id/:placeId",
+    loginVerification,
+    PlaceControllers.getPlace
 );
 
 export default PlaceRouter;
