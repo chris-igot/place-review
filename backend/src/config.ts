@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const port = 3000;
+export const port = 3010;
 
 export const mySQLOptions: MysqlConnectionOptions = {
     type: "mysql",
