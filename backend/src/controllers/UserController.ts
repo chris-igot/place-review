@@ -1,6 +1,8 @@
 import { validate } from "class-validator";
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
+import FavoriteRef from "../entities/FavoriteReference";
+import Place from "../entities/Place";
 import User from "../entities/User";
 
 export async function registration(req: Request, res: Response) {
@@ -24,8 +26,6 @@ export async function registration(req: Request, res: Response) {
         } catch (e) {
             error = e as Error;
         }
-
-        console.log({ newEntity: newUser });
 
         if (error) {
             if (error.message.startsWith("ER_DUP_ENTRY")) {
@@ -116,7 +116,6 @@ export async function retrieve(req: Request, res: Response) {
     const id = req.session.user.id as string;
     const entityFromDB = await AppDataSource.getRepository(User)
         .createQueryBuilder("users")
-        // .leftJoinAndSelect(`${"users"}.roles`, "roles")
         .where({ id })
         .getOne();
 
@@ -125,4 +124,21 @@ export async function retrieve(req: Request, res: Response) {
     } else {
         res.sendStatus(404);
     }
+}
+
+export async function getFavorites(req: Request, res: Response) {
+    const userId = req.session.user.id as string;
+    let results: FavoriteRef[];
+
+    const dbFavRefs = await AppDataSource.getRepository(FavoriteRef)
+        .createQueryBuilder("favoriteRefs")
+        .where({ userId })
+        .getMany();
+    if (dbFavRefs) {
+        results = dbFavRefs;
+    } else {
+        results = [];
+    }
+
+    res.send(results);
 }

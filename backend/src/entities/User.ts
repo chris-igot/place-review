@@ -11,6 +11,7 @@ import BaseUser from "./_BaseUser";
 import crypto from "crypto";
 import Place from "./Place";
 import Vote from "./Vote";
+import FavoriteRef from "./FavoriteReference";
 
 @Entity({ name: "users" })
 @Unique(["name", "disambiguator"])
@@ -20,6 +21,11 @@ export default class User extends BaseUser {
 
     @OneToMany(() => Vote, (vote) => vote.user)
     votes: Vote[];
+
+    @OneToMany(() => FavoriteRef, (favRef) => favRef.user)
+    favoriteRefs: FavoriteRef[];
+
+    favoritePlaces: Place[];
 
     @BeforeInsert()
     async createDisambiguator() {

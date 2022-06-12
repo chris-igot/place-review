@@ -8,6 +8,9 @@ import Place from "../entities/Place";
 import { AppDataSource } from "../data-source";
 import { MetaData } from "metadata-scraper/lib/types";
 import getWebsiteInfo from "../utilities/getWebsiteInfo";
+import User from "../entities/User";
+import FavoriteRef from "../entities/FavoriteReference";
+import { DeleteResult } from "typeorm";
 
 const detailFields = [
     "adr_address",
@@ -161,4 +164,56 @@ export async function getPlace(req: Request, res: Response) {
     } else {
         res.sendStatus(status);
     }
+}
+
+export async function addToFavorites(req: Request, res: Response) {
+    const placeId = req.params.placeId as string;
+    const userId = req.session.user.id as string;
+    let status = 200;
+    let result: Place;
+
+    if (placeId) {
+        const dbPlace = await AppDataSource.getRepository(Place).findOneBy({
+            placeId,
+        });
+        const dbUser = await AppDataSource.getRepository(User)
+            .createQueryBuilder("users")
+            .where({ id: userId })
+            .getOne();
+
+        if (dbPlace && dbUser) {
+            const newFavRef = new FavoriteRef();
+
+            newFavRef.place = dbPlace;
+            newFavRef.user = dbUser;
+
+            await AppDataSource.manager.save(newFavRef);
+        } else {
+            status = 404;
+        }
+    }
+
+    res.sendStatus(status);
+}
+
+export async function removeFromFavorites(req: Request, res: Response) {
+    const placeId = req.params.placeId as string;
+    const userId = req.session.user.id as string;
+    let status = 200;
+    let result: DeleteResult;
+
+    if (placeId) {
+        result = await AppDataSource.createQueryBuilder()
+            .delete()
+            .from(FavoriteRef)
+            .where("placeId = :placeId", { placeId })
+            .andWhere("userId = :userId", { userId })
+            .execute();
+
+        if (result.affected && result.affected === 0) {
+            status = 404;
+        }
+    }
+
+    res.sendStatus(status);
 }

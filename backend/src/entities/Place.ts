@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import BaseTimeStamp from "./_BaseTimeStamp";
 import Tag from "./Tag";
+import FavoriteRef from "./FavoriteReference";
 
 @Entity({ name: "places" })
 export default class Place extends BaseTimeStamp {
@@ -24,4 +25,7 @@ export default class Place extends BaseTimeStamp {
         inverseJoinColumn: { name: "tagName", referencedColumnName: "name" },
     })
     tags: Tag[];
+
+    @OneToMany(() => FavoriteRef, (favRef) => favRef.place)
+    favoriteRefs: FavoriteRef[];
 }

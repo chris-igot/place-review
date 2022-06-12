@@ -22,4 +22,16 @@ PlaceRouter.get(
     PlaceControllers.getPlace
 );
 
+PlaceRouter.put(
+    "/places/id/:placeId/favorite",
+    loginVerification,
+    PlaceControllers.addToFavorites
+);
+
+PlaceRouter.put(
+    "/places/id/:placeId/unfavorite",
+    loginVerification,
+    PlaceControllers.removeFromFavorites
+);
+
 export default PlaceRouter;
