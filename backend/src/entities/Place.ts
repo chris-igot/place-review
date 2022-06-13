@@ -1,5 +1,6 @@
 import TagRef from "./TagReference";
 import {
+    Column,
     Entity,
     JoinTable,
     ManyToMany,
@@ -14,6 +15,12 @@ import FavoriteRef from "./FavoriteReference";
 export default class Place extends BaseTimeStamp {
     @PrimaryColumn()
     placeId: string;
+
+    @Column()
+    name: string;
+
+    @Column()
+    address: string;
 
     @OneToMany(() => TagRef, (tag) => tag.place)
     tagRefs: TagRef[];
