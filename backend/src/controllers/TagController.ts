@@ -4,19 +4,21 @@ import Place from "../entities/Place";
 import TagRef from "../entities/TagReference";
 import Tag from "../entities/Tag";
 import { CLIENT_RENEG_LIMIT } from "tls";
+import { checkValidTag } from "../utilities/regex";
 
 export async function addTag(req: Request, res: Response) {
-    const tagName = req.query.tag as string;
     const placeId = req.params.placeId as string;
+    let tagName = req.query.tag as string;
     let status = 200;
 
-    if (tagName && placeId) {
+    if (checkValidTag(tagName) && placeId) {
         const dbPlace = await AppDataSource.getRepository(Place)
             .createQueryBuilder("places")
             .leftJoinAndSelect("places.tags", "tags")
             .where({ placeId })
             .getOne();
 
+        tagName = tagName.toLowerCase();
         let dbTag = await AppDataSource.getRepository(Tag).findOneBy({
             name: tagName,
         });
