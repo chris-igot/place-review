@@ -82,3 +82,15 @@ export async function getAllTags(req: Request, res: Response) {
 
     res.send(results);
 }
+
+export async function getAutocompleteTags(req: Request, res: Response) {
+    const tagSearch = req.query.tagSearch as string;
+
+    const results = await AppDataSource.getRepository(Tag)
+        .createQueryBuilder("tags")
+        .where("tags.name like :tagSearch", { tagSearch: `%${tagSearch}%` })
+        .orderBy("name", "ASC")
+        .getMany();
+
+    res.send(results);
+}

@@ -16,5 +16,10 @@ TagRouter.get(
     TagControllers.getTagRef
 );
 TagRouter.get("/tags", loginVerification, TagControllers.getAllTags);
+TagRouter.get(
+    "/tags/autocomplete",
+    loginVerification,
+    TagControllers.getAutocompleteTags
+);
 
 export default TagRouter;
