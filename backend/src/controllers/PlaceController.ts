@@ -13,14 +13,19 @@ const detailFields = ["formatted_address", "name", "place_id"];
 
 const client = new Client({});
 
+export interface PlaceAutocompleteResultType {
+    description: string;
+    placeId: string;
+}
+
 export async function getAutocompleteResult(req: Request, res: Response) {
     const search = req.query.search as string;
-    let result: PlaceAutocompleteResult[];
+    let result: PlaceAutocompleteResultType[] = [];
     let errorMessage: any;
     let status = 200;
 
     if (search && typeof search === "string") {
-        await client
+        const googleResult = await client
             .placeAutocomplete({
                 params: {
                     input: search,
@@ -28,7 +33,12 @@ export async function getAutocompleteResult(req: Request, res: Response) {
                 },
             })
             .then(async (response) => {
-                result = response.data.predictions;
+                response.data.predictions.forEach((resultItem) => {
+                    result.push({
+                        description: resultItem.description,
+                        placeId: resultItem.place_id,
+                    });
+                });
             })
             .catch((e) => {
                 errorMessage = e.response.data.error_message;
