@@ -9,11 +9,6 @@ const jsonParser = bodyParser.json();
 UserRouter.post("/login", jsonParser, UserController.login);
 UserRouter.post("/users", jsonParser, UserController.registration);
 UserRouter.get("/users/self", loginVerification, UserController.retrieve);
-UserRouter.get(
-    "/users/self/favorites",
-    loginVerification,
-    UserController.getFavorites
-);
 
 UserRouter.delete("/login", UserController.logout);
 UserRouter.get("/logout", UserController.logout);

@@ -11,15 +11,9 @@ PlaceRouter.get(
 );
 
 PlaceRouter.get(
-    "/places/id/:placeId/details",
-    loginVerification,
-    PlaceControllers.getPlaceDetails
-);
-
-PlaceRouter.get(
     "/places/id/:placeId",
     loginVerification,
-    PlaceControllers.getPlace
+    PlaceControllers.getPlaceDetails
 );
 
 PlaceRouter.put(
@@ -32,6 +26,12 @@ PlaceRouter.put(
     "/places/id/:placeId/unfavorite",
     loginVerification,
     PlaceControllers.removeFromFavorites
+);
+
+PlaceRouter.get(
+    "/users/self/favorites",
+    loginVerification,
+    PlaceControllers.getFavorites
 );
 
 export default PlaceRouter;

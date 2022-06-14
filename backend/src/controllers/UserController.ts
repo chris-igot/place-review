@@ -125,20 +125,3 @@ export async function retrieve(req: Request, res: Response) {
         res.sendStatus(404);
     }
 }
-
-export async function getFavorites(req: Request, res: Response) {
-    const userId = req.session.user.id as string;
-    let results: FavoriteRef[];
-
-    const dbFavRefs = await AppDataSource.getRepository(FavoriteRef)
-        .createQueryBuilder("favoriteRefs")
-        .where({ userId })
-        .getMany();
-    if (dbFavRefs) {
-        results = dbFavRefs;
-    } else {
-        results = [];
-    }
-
-    res.send(results);
-}

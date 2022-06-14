@@ -33,6 +33,8 @@ export default class TagRef {
     @OneToMany(() => Vote, (vote) => vote.tagRef)
     votes: Vote[];
 
+    voteCounts: VoteCountType;
+
     get voteCount() {
         let result: VoteCountType | null;
 
@@ -54,13 +56,16 @@ export default class TagRef {
                 }
             }
         }
+
         return result;
     }
 
     toJSON() {
         let obj = this;
 
+        this.voteCounts = this.voteCount;
         delete obj.votes;
+        delete obj.placeId;
 
         return obj;
     }

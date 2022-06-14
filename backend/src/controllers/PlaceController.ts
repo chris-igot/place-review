@@ -59,9 +59,17 @@ export async function getPlaceDetails(req: Request, res: Response) {
     if (placeId) {
         const dbPlace = await AppDataSource.getRepository(Place)
             .createQueryBuilder("places")
-            .leftJoinAndSelect("places.tags", "tags")
+            .leftJoinAndSelect("places.tagRefs", "tagRefs")
+            .leftJoinAndMapMany(
+                "tagRefs.votes",
+                "votes",
+                "votes",
+                "votes.tagRefPlaceId = tagRefs.placeId AND votes.tagRefTagName = tagRefs.tagName"
+            )
             .where({ placeId })
             .getOne();
+
+        console.log(dbPlace.tagRefs[0].votes);
 
         if (dbPlace) {
             output = dbPlace;
@@ -100,32 +108,6 @@ export async function getPlaceDetails(req: Request, res: Response) {
     } else if (status === 500) {
         res.status(status);
         res.send(errorMessage);
-    } else {
-        res.sendStatus(status);
-    }
-}
-
-export async function getPlace(req: Request, res: Response) {
-    const placeId = req.params.placeId as string;
-    let status = 200;
-    let result: Place;
-
-    if (placeId) {
-        const dbPlace = await AppDataSource.getRepository(Place)
-            .createQueryBuilder("places")
-            .leftJoinAndSelect("places.tags", "tags")
-            .where({ placeId })
-            .getOne();
-
-        if (dbPlace) {
-            result = dbPlace;
-        } else {
-            status = 404;
-        }
-    }
-
-    if (status === 200) {
-        res.send(result);
     } else {
         res.sendStatus(status);
     }
@@ -181,4 +163,32 @@ export async function removeFromFavorites(req: Request, res: Response) {
     }
 
     res.sendStatus(status);
+}
+
+export async function getFavorites(req: Request, res: Response) {
+    const userId = req.session.user.id as string;
+    const result = await AppDataSource.getRepository(FavoriteRef)
+        .createQueryBuilder("favoriteRefs")
+        .leftJoinAndMapOne(
+            "favoriteRefs.place",
+            "places",
+            "places",
+            "places.placeId = favoriteRefs.placeId"
+        )
+        .leftJoinAndMapMany(
+            "places.tagRefs",
+            "tagRefs",
+            "tagRefs",
+            "tagRefs.placeId = places.placeId"
+        )
+        .leftJoinAndMapMany(
+            "tagRefs.votes",
+            "votes",
+            "votes",
+            "votes.tagRefPlaceId = tagRefs.placeId AND votes.tagRefTagName = tagRefs.tagName"
+        )
+        .where({ userId })
+        .getMany();
+    console.log(result);
+    res.send(result);
 }
