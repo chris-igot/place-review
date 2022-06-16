@@ -25,4 +25,4 @@ export const cookieSessionConfig = {
     maxAge: 60 * 60 * 1000,
 };
 
-export const voteInterval = 3000; //2592000000; //1000 * 3600 * 24 * 30
+export const voteInterval = 300000; //2592000000; //1000 * 3600 * 24 * 30
