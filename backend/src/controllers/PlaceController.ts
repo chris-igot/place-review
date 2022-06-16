@@ -199,6 +199,16 @@ export async function getFavorites(req: Request, res: Response) {
         )
         .where({ userId })
         .getMany();
-    console.log(result);
-    res.send(result);
+
+    let output: Place[] = [];
+
+    result.forEach((resultItem) => {
+        resultItem.place.tagRefs.forEach((tagRef) => {
+            tagRef.checkVote(userId);
+            console.log(tagRef.votes);
+        });
+        output.push(resultItem.place);
+    });
+
+    res.send(output);
 }

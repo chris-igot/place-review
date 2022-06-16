@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CLIENT_RENEG_LIMIT } from "tls";
 import { Equal } from "typeorm";
+import { voteInterval } from "../config";
 import { AppDataSource } from "../data-source";
 import Place from "../entities/Place";
 import TagRef from "../entities/TagReference";
@@ -25,7 +26,6 @@ export async function castVote(req: Request, res: Response) {
         });
 
         if (dbTag && dbUser) {
-            const oneMonthMs = 2592000000; //1000 * 3600 * 24 * 30
             const oldVote = await AppDataSource.getRepository(Vote)
                 .createQueryBuilder("votes")
                 .where("votes.userId = :userId", { userId })
@@ -40,7 +40,7 @@ export async function castVote(req: Request, res: Response) {
                 const offsetTZMs = now.getTimezoneOffset() * 60000;
                 canVote =
                     now.valueOf() - oldVote.createdAt.valueOf() + offsetTZMs >=
-                    oneMonthMs;
+                    voteInterval;
             }
 
             if (canVote) {

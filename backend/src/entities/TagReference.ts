@@ -7,6 +7,7 @@ import {
     PrimaryColumn,
     Unique,
 } from "typeorm";
+import { voteInterval } from "../config";
 import Place from "./Place";
 import Tag from "./Tag";
 import Vote from "./Vote";
@@ -35,6 +36,8 @@ export default class TagRef {
 
     voteCounts: VoteCountType;
 
+    canVote: boolean;
+
     get voteCount() {
         let result: VoteCountType | null;
 
@@ -58,6 +61,29 @@ export default class TagRef {
         }
 
         return result;
+    }
+
+    checkVote(userId: string) {
+        console.log(this.tagName, this.votes);
+
+        if (this.votes && this.votes.length > 0) {
+            for (let i = 0; i < this.votes.length; i++) {
+                const vote = this.votes[i];
+                console.log(this.canVote);
+
+                if (vote.userId === userId) {
+                    const now = new Date();
+                    const offsetTZMs = now.getTimezoneOffset() * 60000;
+                    this.canVote =
+                        now.valueOf() - vote.createdAt.valueOf() + offsetTZMs >=
+                        voteInterval;
+
+                    console.log(this.canVote);
+                }
+            }
+        } else {
+            this.canVote = true;
+        }
     }
 
     toJSON() {
