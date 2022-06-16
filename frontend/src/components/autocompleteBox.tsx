@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import InputText from "./formTextInput";
 
 export interface AutocompletePropsType {
     type: "tags" | "places";
-    onSelect: (arg: string) => void;
+    onSelect: (selectionName: string) => void;
 }
 
 export interface AutocompleteResultType {
@@ -18,16 +18,16 @@ function AutocompleteBox(props: AutocompletePropsType) {
     const [autocompleteResults, setAutocompleteResults] = useState<
         AutocompleteResultType[]
     >([]);
-    const [lastKey, setLastKey] = useState<string>("");
-    const [refreshCounter, refreshAutocomplete] = useState<number>(-1);
     const [lastRequestTime, setLastRequestTime] = useState<number>(
         new Date(0).getTime()
     );
+    const [fieldValue, setFieldValue] = useState<string>("");
 
     function autocompletePlaces(e: React.ChangeEvent<HTMLInputElement>) {
         const searchString = e.currentTarget.value;
         const now = Date.now();
 
+        setFieldValue(searchString);
         if (
             searchString &&
             searchString.length > 2 &&
@@ -57,14 +57,9 @@ function AutocompleteBox(props: AutocompletePropsType) {
     }
 
     function handleSearchKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
-        setLastKey(e.key);
-        refreshAutocomplete(refreshCounter + 1);
-    }
-
-    useEffect(() => {
-        if (lastKey) {
+        if (e.key) {
             let tempIndex: number = -1;
-            switch (lastKey) {
+            switch (e.key) {
                 case "ArrowUp":
                     tempIndex = currentIndex - 1;
                     if (tempIndex >= 0) {
@@ -79,30 +74,41 @@ function AutocompleteBox(props: AutocompletePropsType) {
                     }
                     break;
                 case "Enter":
-                    switch (props.type) {
-                        case "tags":
-                            handleSelect(
-                                autocompleteResults[currentIndex].name as string
-                            );
-                            break;
-                        case "places":
-                            handleSelect(
-                                autocompleteResults[currentIndex]
-                                    .placeId as string
-                            );
-                            break;
-                        default:
-                            break;
+                    if (autocompleteResults[currentIndex]) {
+                        switch (props.type) {
+                            case "tags":
+                                handleSelect(
+                                    autocompleteResults[currentIndex]
+                                        .name as string
+                                );
+                                break;
+                            case "places":
+                                handleSelect(
+                                    autocompleteResults[currentIndex]
+                                        .placeId as string
+                                );
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        handleSelect(fieldValue);
                     }
+                    e.currentTarget.value = "";
                     break;
                 default:
                     break;
             }
         }
-    }, [refreshCounter, lastKey]);
+    }
 
     function handleSelect(identifier: string) {
-        props.onSelect(identifier);
+        if (identifier) {
+            props.onSelect(identifier);
+        } else {
+            props.onSelect(fieldValue);
+        }
+
         setAutocompleteResults([]);
         setCurrentIndex(-1);
     }
@@ -116,7 +122,9 @@ function AutocompleteBox(props: AutocompletePropsType) {
         >
             <InputText
                 name={"search"}
-                label="search locations"
+                label={
+                    props.type === "places" ? "search locations" : "add a tag"
+                }
                 type="search"
                 width="max"
                 onChange={autocompletePlaces}
