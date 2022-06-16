@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputText from "../components/formTextInput";
@@ -9,12 +8,14 @@ export default function LoginReg() {
     const [isLogin, setIsLogin] = useState(true);
     const navigate = useNavigate();
 
-    function handlePwChange(e: React.KeyboardEvent<HTMLInputElement>) {
+    function handlePwChange(e: React.ChangeEvent<HTMLInputElement>) {
         const value = e.currentTarget.value;
-        const pwConfirmElement = document.getElementById(
-            "passwordConfirm"
-        ) as HTMLInputElement;
-        pwConfirmElement.pattern = escapeRegExp(value);
+        if (!isLogin) {
+            const pwConfirmElement = document.getElementById(
+                "passwordConfirm"
+            ) as HTMLInputElement;
+            pwConfirmElement.pattern = escapeRegExp(value);
+        }
     }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -64,7 +65,7 @@ export default function LoginReg() {
                     pattern="^[ -~]{8,100}$"
                     title="Password must be between 8 and 100 characters"
                     type="password"
-                    onKeyUp={handlePwChange}
+                    onChange={handlePwChange}
                     required
                 />
                 {!isLogin && (
@@ -80,6 +81,7 @@ export default function LoginReg() {
                     <p>
                         New user?{" "}
                         <a
+                            href="#registration"
                             onClick={(e) => {
                                 e.preventDefault();
                                 setIsLogin(!isLogin);
@@ -92,6 +94,7 @@ export default function LoginReg() {
                     <p>
                         Go back to{" "}
                         <a
+                            href="#login"
                             onClick={(e) => {
                                 e.preventDefault();
                                 setIsLogin(!isLogin);
@@ -102,7 +105,7 @@ export default function LoginReg() {
                         page
                     </p>
                 )}
-                <button className="btn-primary" type="submit">
+                <button className="btn btn-primary" type="submit">
                     {isLogin ? "Login" : "Register"}
                 </button>
             </form>
