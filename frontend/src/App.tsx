@@ -1,5 +1,3 @@
-import "./styles/App.scss";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginReg from "./pages/loginReg";
 import Home from "./pages/home";
