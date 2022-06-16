@@ -1,15 +1,11 @@
-@use "colors";
-
+@use "colors.scss";
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
-
 /* Document
    ========================================================================== */
-
 /**
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
-
 html {
     line-height: 1.15; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
@@ -32,7 +28,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    background-color: colors.$clr-blue-9;
+    background-color: colors.$clr-white;
 }
 
 /**
@@ -49,20 +45,6 @@ main {
    */
 
 h1 {
-    font-size: 2em;
-    margin: 0.67em 0;
-}
-
-/* Grouping content
-     ========================================================================== */
-
-/**
-   * 1. Add the correct box sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-
-hr {
-    box-sizing: content-box; /* 1 */
     height: 0; /* 1 */
     overflow: visible; /* 2 */
 }
@@ -85,13 +67,16 @@ pre {
    */
 
 a {
+    display: inline-block;
+
     background-color: transparent;
-    color: colors.$clr-gray-3;
+    color: colors.$clr-blue-5;
     text-decoration: none;
 
     &:hover {
         color: colors.$clr-gray-5;
         text-decoration: underline;
+        cursor: pointer;
     }
 }
 

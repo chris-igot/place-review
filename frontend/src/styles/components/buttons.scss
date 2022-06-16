@@ -1,0 +1,42 @@
+@use "../common/colors.scss";
+
+.btn {
+    margin: 0.25rem;
+    box-sizing: border-box;
+    padding-inline: 2rem;
+    padding-block: 0.5rem;
+
+    border: 3px solid;
+    border-radius: 10rem;
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.btn-primary {
+    color: colors.$clr-white;
+    background-color: colors.$clr-blue-5;
+    border-color: colors.$clr-blue-5;
+
+    &:hover {
+        background-color: colors.$clr-blue-3;
+    }
+}
+
+.btn-secondary {
+    color: colors.$clr-black;
+    background-color: colors.$clr-white;
+
+    &:hover {
+        background-color: colors.$clr-gray-7;
+    }
+}
+
+.btn-danger {
+    color: colors.$clr-white;
+    background-color: colors.$clr-red-5;
+    border-color: colors.$clr-red-5;
+
+    &:hover {
+        background-color: colors.$clr-red-3;
+    }
+}

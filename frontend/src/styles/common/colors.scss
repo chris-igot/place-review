@@ -1,0 +1,37 @@
+$clr-blue-3: hsl(210, 89%, 20%);
+$clr-blue-5: hsl(210, 89%, 40%);
+$clr-blue-7: hsl(210, 88%, 80%);
+$clr-blue-9: hsl(210, 88%, 95%);
+$clr-black: hsl(210, 15%, 10%);
+$clr-gray-3: hsl(210, 15%, 20%);
+$clr-gray-5: hsl(210, 15%, 40%);
+$clr-gray-7: hsl(210, 15%, 80%);
+$clr-white: hsl(210, 15%, 96%);
+$clr-red-3: hsl(15, 78%, 28%);
+$clr-red-5: hsl(15, 78%, 56%);
+$clr-red-7: hsl(15, 78%, 90%);
+$clr-green: hsl(105, 89%, 40%);
+
+.bg-primary {
+    background-color: $clr-white;
+}
+
+.text-primary {
+    color: $clr-black;
+}
+
+.bg-primary-alt {
+    background-color: $clr-black;
+}
+
+.text-primary-alt {
+    color: $clr-white;
+}
+
+.bg-punch {
+    background-color: $clr-blue-5;
+}
+
+.text-dimmed {
+    color: $clr-gray-5;
+}

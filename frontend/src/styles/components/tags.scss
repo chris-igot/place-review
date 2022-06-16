@@ -1,0 +1,50 @@
+@use "../common/colors.scss";
+
+.tag {
+    display: inline-block;
+    margin: 0.25em;
+    padding-inline: 1em;
+    padding-block: 0.25em;
+
+    border-radius: 5rem;
+    cursor: pointer;
+    color: colors.$clr-gray-5;
+    background-color: colors.$clr-white;
+    border: 3px solid colors.$clr-gray-5;
+    font-size: 0.8em;
+    transition-duration: 0.2s;
+
+    &:hover {
+        border: 3px solid colors.$clr-gray-5;
+        background-color: colors.$clr-gray-7;
+    }
+
+    &.voted {
+        background-color: colors.$clr-gray-5;
+        color: colors.$clr-white;
+        cursor: default;
+    }
+}
+
+.tag-menu-container {
+    position: fixed;
+    display: flex;
+    z-index: 9002;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba($color: colors.$clr-white, $alpha: 0.5);
+    backdrop-filter: blur(3px);
+
+    .tag-menu {
+        padding: 1rem;
+
+        background-color: colors.$clr-white;
+        border-radius: 1rem;
+        box-shadow: 1px 1px 5px 1px colors.$clr-gray-5;
+    }
+}

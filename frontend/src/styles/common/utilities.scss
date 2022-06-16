@@ -1,0 +1,142 @@
+$sizes: 0, 1, 2, 4, 6;
+
+@mixin genspacing($attr) {
+    @each $size in $sizes {
+        $c-size: calc($size/2);
+        &-#{$size} {
+            #{$attr}: #{$c-size}em;
+        }
+        &t-#{$size} {
+            #{$attr}-top: #{$c-size}em;
+        }
+        &r-#{$size} {
+            #{$attr}-right: #{$c-size}em;
+        }
+        &b-#{$size} {
+            #{$attr}-bottom: #{$c-size}em;
+        }
+        &l-#{$size} {
+            #{$attr}-left: #{$c-size}em;
+        }
+        &x-#{$size} {
+            #{$attr}-right: #{$c-size}em;
+            #{$attr}-left: #{$c-size}em;
+        }
+        &y-#{$size} {
+            #{$attr}-top: #{$c-size}em;
+            #{$attr}-bottom: #{$c-size}em;
+        }
+    }
+}
+
+.m {
+    @include genspacing("margin");
+}
+
+.p {
+    @include genspacing("padding");
+}
+
+.text {
+    &--center {
+        text-align: center;
+    }
+
+    &--sm {
+        font-size: 0.8rem;
+    }
+
+    &--w-100 {
+        font-weight: 100;
+    }
+
+    &--w-300 {
+        font-weight: 300;
+    }
+
+    &--w-500 {
+        font-weight: 500;
+    }
+
+    &--w-700 {
+        font-weight: 700;
+    }
+}
+
+.flex {
+    display: flex;
+
+    &--row {
+        flex-direction: row;
+    }
+
+    &--col {
+        flex-direction: column;
+    }
+
+    &--wrap {
+        flex-wrap: wrap;
+    }
+
+    &--grow {
+        &-1 {
+            flex-grow: 1;
+        }
+        &-2 {
+            flex-grow: 2;
+        }
+
+        &-3 {
+            flex-grow: 3;
+        }
+    }
+
+    &--h {
+        &-center {
+            justify-content: center;
+        }
+        &-left {
+            justify-content: flex-start;
+        }
+        &-right {
+            justify-content: flex-end;
+        }
+        &-space-between {
+            justify-content: space-between;
+        }
+    }
+
+    &--v {
+        &-center {
+            align-items: center;
+        }
+        &-top {
+            align-items: flex-start;
+        }
+        &-bottom {
+            align-items: flex-end;
+        }
+    }
+}
+
+.position {
+    &--rel {
+        position: relative;
+    }
+
+    &--abs {
+        position: absolute;
+    }
+}
+
+.display {
+    &--inline-block {
+        display: inline-block;
+    }
+}
+
+.vertical-align {
+    &--top {
+        vertical-align: top;
+    }
+}

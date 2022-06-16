@@ -1,0 +1,22 @@
+@use "../common/colors.scss";
+
+.autocomplete-box {
+    .autocomplete-results {
+        position: relative;
+        margin-inline: 1.25rem;
+        top: -0.65rem;
+
+        background-color: colors.$clr-white;
+
+        .result-item {
+            padding-block: 0.25em;
+
+            border-bottom: 1px solid colors.$clr-gray-7;
+            cursor: pointer;
+
+            &.focused {
+                background-color: colors.$clr-blue-7;
+            }
+        }
+    }
+}

@@ -1,0 +1,114 @@
+@use "../common/colors.scss";
+
+.form__input {
+    &--text {
+        $field-width: 12rem;
+        $height: 2.5rem;
+        $margin: 8px 0;
+        $outline-width: 3px;
+
+        position: relative;
+        margin: $margin;
+
+        %form-input-text-common {
+            position: absolute;
+
+            transition-duration: 0.15s;
+
+            font-size: 1rem;
+        }
+
+        %form-input-text-smalllabel {
+            transform: translateY(10%);
+
+            font-size: 0.6rem;
+        }
+
+        & > input {
+            box-sizing: border-box;
+            height: $height;
+            padding: 0.75rem 1rem 0 1rem;
+
+            outline: $outline-width solid;
+            border: 0;
+            border-radius: 10rem;
+            background-color: colors.$clr-white;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+
+            &:active,
+            &:focus {
+                // outline-width: 4px;
+                transform: scale(1.05);
+            }
+
+            &:focus + label {
+                @extend %form-input-text-smalllabel;
+            }
+
+            &.submitted:invalid {
+                outline-color: colors.$clr-red-5;
+                background-color: colors.$clr-red-7;
+                color: colors.$clr-red-3;
+
+                & + label {
+                    color: colors.$clr-red-7;
+                }
+            }
+
+            @extend %form-input-text-common;
+        }
+
+        &.notblank > label {
+            @extend %form-input-text-smalllabel;
+        }
+
+        & > label {
+            left: 1rem;
+            transform: translateY(50%);
+
+            @extend %form-input-text-common;
+        }
+    }
+}
+
+.form-radio {
+    input {
+        display: none;
+    }
+
+    label {
+        $border-values: 3px solid colors.$clr-gray-5;
+
+        display: inline-block;
+        padding: 0.25em;
+        width: 5em;
+
+        text-align: center;
+        border-block: $border-values;
+        border-left: $border-values;
+        color: colors.$clr-gray-5;
+        cursor: pointer;
+
+        &:hover {
+            background-color: colors.$clr-gray-7;
+            color: colors.$clr-white;
+        }
+
+        &:first-child {
+            border-radius: 5rem 0 0 5rem;
+        }
+
+        &:last-child {
+            border-radius: 0 5rem 5rem 0;
+            border-right: $border-values;
+        }
+
+        &.picked {
+            background-color: colors.$clr-gray-5;
+            color: colors.$clr-white;
+        }
+    }
+}
