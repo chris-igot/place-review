@@ -62,6 +62,7 @@ export async function getAutocompleteResult(req: Request, res: Response) {
 
 export async function getPlaceDetails(req: Request, res: Response) {
     const placeId = req.params.placeId as string;
+    const userId = req.session.user.id as string;
     let output: Place;
     let errorMessage: any;
     let status = 200;
@@ -79,7 +80,7 @@ export async function getPlaceDetails(req: Request, res: Response) {
             .where({ placeId })
             .getOne();
 
-        console.log(dbPlace.tagRefs[0].votes);
+        console.log(dbPlace);
 
         if (dbPlace) {
             output = dbPlace;
@@ -99,7 +100,7 @@ export async function getPlaceDetails(req: Request, res: Response) {
                     place.placeId = googleResult.place_id;
                     place.address = googleResult.formatted_address;
                     place.name = googleResult.name;
-                    place.tags = [];
+                    place.tagRefs = [];
 
                     output = await AppDataSource.manager.save(place);
                 })
@@ -114,6 +115,13 @@ export async function getPlaceDetails(req: Request, res: Response) {
     }
 
     if (status === 200) {
+        if (output.tagRefs) {
+            output.tagRefs.forEach((tagRef) => {
+                tagRef.checkVote(userId);
+            });
+        }
+
+        console.log(output);
         res.send(output);
     } else if (status === 500) {
         res.status(status);
@@ -205,7 +213,6 @@ export async function getFavorites(req: Request, res: Response) {
     result.forEach((resultItem) => {
         resultItem.place.tagRefs.forEach((tagRef) => {
             tagRef.checkVote(userId);
-            console.log(tagRef.votes);
         });
         output.push(resultItem.place);
     });

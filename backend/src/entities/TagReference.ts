@@ -64,8 +64,6 @@ export default class TagRef {
     }
 
     checkVote(userId: string) {
-        console.log(this.tagName, this.votes);
-
         if (this.votes && this.votes.length > 0) {
             for (let i = 0; i < this.votes.length; i++) {
                 const vote = this.votes[i];
@@ -77,8 +75,6 @@ export default class TagRef {
                     this.canVote =
                         now.valueOf() - vote.createdAt.valueOf() + offsetTZMs >=
                         voteInterval;
-
-                    console.log(this.canVote);
                 }
             }
         } else {
